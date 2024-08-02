@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-info">
+                    <i class="fa-solid fa-circle-h"></i>
+                    <div class="user-details">
+                        <p class="user-name">Harry Mansour</p>
+                        <div class="user-email"><p>HarMan73@outlook.com</p><i class="fa-solid fa-arrows-up-down"></i></div>
+                    </div>
+                </div>
+                <div class="search-box">
+                    <div class="search-bar">
+                        <input type="text" class="search-bar" placeholder="Search" id="search">
+                        <label for="search"><i class="fa-solid fa-magnifying-glass"></i></label>
+                    </div>
+                    
+                </div>                
+            </div>
+            <div class="sidebar-menu">
+                <ul class="menu-item">
+                    <li class="item">
+                        <img src="./icons/sun.svg" alt="">
+                        <h3>My Day</h3>
+                    </li>
+                    <li class="item">
+                        <img src="./icons/star.svg" alt="">
+                        <h3>Important</h3>
+                    </li>
+                    <li class="item">
+                        <img src="./icons/plan.svg" alt="">
+                        <h3>Planned</h3>
+                    </li>
+                    <li class="item">
+                        <img src="./icons/user.svg" alt="">
+                        <h3>Assigned to me</h3>
+                    </li>
+                    <li class="item">
+                        <img src="./icons/flag.svg" alt="">
+                        <h3>Flagged email</h3>
+                    </li>
+                    <li class="item active">
+                        <img src="./icons/home.svg" alt="">
+                        <h3>Tasks</h3>
+                    </li>
+                </ul>
+                <div class="new-groups">
+                    <div class="new-list"><i class="fas fa-plus"></i> <p>New  list</p></div>
+                    <div class="new-group" title="Create Group"><i class="fa-solid fa-expand"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="menu-icon">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </div>
+                <div class="tasks-header">
+                    <img src="./icons/home.svg" alt="">
+                    <h2>Tasks</h2>
+                </div>
+            </div>
+            
+            <div class="tasks-body">
+                <div class="task-list" id="task-list">
+                    <!-- Incomplete tasks will be appended here -->
+                </div>
+
+                <div id="completed-tasks">
+                    <!-- Completed tasks will be appended here -->
+                </div>
+                <div class="empty-tasks" id="empty-tasks">                    
+                    <div class="task-icon">
+                        <img src="./icons/task-body-icon.svg" alt="">
+                    </div>
+                    <p>Tasks show up here if they aren't part of any lists you've created.</p>                    
+                </div>                
+            </div>
+            
+            <div class="add-task" id="add-task">
+                <form id="form">
+                    <label for="task-input"><i class="fa-solid fa-plus" id="task-icon"></i></label>                
+                    <input type="text" placeholder="Add a task" id="task-input" name="task">
+                    <button type="submit" id="add-btn">Add</button>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+
+
+    <script src="./index.js"></script>
+</body>
+</html>
