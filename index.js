@@ -79,6 +79,7 @@ function printItemsOnUI() {
     tasks.forEach((taskItem, index) => {
         let taskElement = document.createElement('div')
         taskElement.classList.add('task')
+        taskElement.setAttribute(`id`, `${index}`)
 
         let taskContent = document.createElement('div')
         taskContent.classList.add('task-content')
@@ -144,13 +145,6 @@ function printItemsOnUI() {
         }        
     })
 }
-
-taskList.addEventListener(`click`, targetTaskItem)
-function targetTaskItem(e){
-    let targetOfUser = e.target
-    let grandParentElement = targetOfUser.parentElememnt.parent
-}
-
 
 // Delete tasks from array and update UI and local storage
 function deleteTask(taskToDelete) {
