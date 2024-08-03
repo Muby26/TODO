@@ -6,7 +6,7 @@ const taskInput = document.getElementById('task-input')
 const taskList = document.getElementById('task-list')
 const addButton = document.getElementById('add-btn')
 const form = document.getElementById('form')
-const completedTasks = document.getElementById('completed-tasks')
+const completedTasksBox = document.getElementById('completed-tasks')
 
 // Event listener for input focus
 taskInput.addEventListener('focus', (e) => {
@@ -100,24 +100,24 @@ function printItemsOnUI() {
 
         let tasksTitle = document.createElement(`h3`)
         tasksTitle.innerText = `${taskItem.text}`
+        tasksTitle.setAttribute("data-action", "title")
 
         let tasksDate = document.createElement(`p`)
         tasksDate.innerText = `${taskItem.date}`
+        tasksDate.setAttribute("data-action", "date")
 
         const actions = document.createElement('div')
         actions.classList.add('actions')
 
         const editIcon = document.createElement(`i`)
         editIcon.classList.add(`fas`, `fa-pen-to-square`)
-        editIcon.addEventListener('click', () => {
-            editTask(taskItem)
-        })
+        editIcon.setAttribute("data-action", "edit")
+        
 
         const deleteIcon = document.createElement('i')
         deleteIcon.classList.add('fas', 'fa-trash-can')
-        deleteIcon.addEventListener('click', () => {
-            deleteTask(taskItem)
-        });
+        deleteIcon.setAttribute("data-action", "delete")
+        
 
         // Append
         if(!taskItem.completed){
@@ -142,13 +142,65 @@ function printItemsOnUI() {
             taskElement.append(taskContent)
             taskElement.append(actions)
             taskList.append(taskElement)
+            tasksTitle.style.textDecoration = "line-through"
         }        
     })
 }
 
-// Delete tasks from array and update UI and local storage
-function deleteTask(taskToDelete) {
-    tasks = tasks.filter(task => task !== taskToDelete)
-    localStorage.setItem("addedTasks", JSON.stringify(tasks))
-    printItemsOnUI()
+taskList.addEventListener(`click`, targetTaskItem)
+function targetTaskItem(e){
+    let userTarget = e.target
+    let greatGrandParentElement = userTarget.closest(".task") //<div class="task">(The closest() method of the Element interface traverses the element and its parents (heading toward the document root) until it finds a node that matches the specified CSS selector.)
+    if(!greatGrandParentElement)return
+
+    let taskID = Number(greatGrandParentElement.id)
+    let clickedAction = userTarget.dataset.action
+
+    if(clickedAction === "check"){
+        checkTaskItem(taskID)
+    }
+
+    if(clickedAction === "delete"){
+        // Show confirmation dialog before deleting task
+        if (confirm("Are you sure you want to delete this task?")) {
+            deleteTaskItem(taskID);
+        }
+    }
 }
+
+function  checkTaskItem(ID){
+    tasks = tasks.map(function(taskObject, index){
+        if(index === ID){
+            return{
+                text : taskObject.text,
+                date : taskObject.date,
+                completed : !taskObject.completed
+            }
+        }else{
+            return{
+                text : taskObject.text,
+                date : taskObject.date,
+                completed : taskObject.completed
+            }
+        }
+    })
+
+    printItemsOnUI()
+
+}
+
+function deleteTaskItem(ID) {
+    // Create a new array that excludes the task with the matching taskID
+    tasks = tasks.filter(function(task, index) {
+        return index !== ID;
+    });
+
+    // Update local storage with the new array of tasks
+    localStorage.setItem("addedTasks", JSON.stringify(tasks));
+
+    // Refresh the task list by calling printItemsOnUI
+    printItemsOnUI();
+}
+
+// Delete tasks from array and update UI and local storage
+
