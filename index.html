@@ -10,7 +10,7 @@
 <body>
     <div class="container">
         <!-- Sidebar -->
-        <div class="sidebar">
+        <div class="sidebar-full">
             <div class="sidebar-header">
                 <div class="user-info">
                     <i class="fa-solid fa-circle-h"></i>
@@ -66,6 +66,59 @@
             <div class="header">
                 <div class="menu-icon">
                     <i class="fas fa-bars" id="menu-icon"></i>
+                    <div class="sidebar-mobile" id="sidebar-mobile">
+                        <div class="close-icon">
+                            <i class="fas fa-x" id="close-icon"></i>
+                        </div>                        
+                        <div class="sidebar-header">
+                            <div class="user-info">
+                                <i class="fa-solid fa-circle-h"></i>
+                                <div class="user-details">
+                                    <p class="user-name">Harry Mansour</p>
+                                    <div class="user-email"><p>HarMan73@outlook.com</p><i class="fa-solid fa-arrows-up-down"></i></div>
+                                </div>
+                            </div>
+                            <div class="search-box">
+                                <div class="search-bar">
+                                    <input type="text" class="search-bar" placeholder="Search" id="search">
+                                    <label for="search"><i class="fa-solid fa-magnifying-glass"></i></label>
+                                </div>
+                                
+                            </div>                
+                        </div>
+                        <div class="sidebar-menu">
+                            <ul class="menu-item">
+                                <li class="item">
+                                    <img src="./icons/sun.svg" alt="">
+                                    <h3>My Day</h3>
+                                </li>
+                                <li class="item">
+                                    <img src="./icons/star.svg" alt="">
+                                    <h3>Important</h3>
+                                </li>
+                                <li class="item">
+                                    <img src="./icons/plan.svg" alt="">
+                                    <h3>Planned</h3>
+                                </li>
+                                <li class="item">
+                                    <img src="./icons/user.svg" alt="">
+                                    <h3>Assigned to me</h3>
+                                </li>
+                                <li class="item">
+                                    <img src="./icons/flag.svg" alt="">
+                                    <h3>Flagged email</h3>
+                                </li>
+                                <li class="item active">
+                                    <img src="./icons/home.svg" alt="">
+                                    <h3>Tasks</h3>
+                                </li>
+                            </ul>
+                            <div class="new-groups">
+                                <div class="new-list"><i class="fas fa-plus"></i> <p>New  list</p></div>
+                                <div class="new-group" title="Create Group"><i class="fa-solid fa-expand"></i></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tasks-header">
                     <img src="./icons/home.svg" alt="">

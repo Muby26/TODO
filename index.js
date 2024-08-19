@@ -1,12 +1,23 @@
 // Selecting elements
 const addTask = document.getElementById("add-task")
 const taskIcon = document.getElementById("task-icon")
+const closeIcon = document.getElementById("close-icon")
+const menuIcon = document.getElementById("menu-icon")
+const sideBarMobile = document.getElementById("sidebar-mobile")
 const emptyTask = document.getElementById("empty-tasks")
 const taskInput = document.getElementById('task-input')
 const taskList = document.getElementById('task-list')
 const addButton = document.getElementById('add-btn')
 const form = document.getElementById('form')
 const completedTasksBox = document.getElementById('completed-tasks')
+
+menuIcon.addEventListener('click', (e) => {
+    sideBarMobile.style.visibility = "visible"
+})
+
+closeIcon.addEventListener('click', (e) => {
+    sideBarMobile.style.visibility = "hidden"
+})
 
 // Event listener for input focus
 taskInput.addEventListener('focus', (e) => {
@@ -28,11 +39,13 @@ taskInput.addEventListener('blur', (e) => {
     addButton.style.visibility = "hidden"
 })
 
+// Array to collect all task object literals
 let tasks = []
+let editingSignal = -1 // by default, the user is not editing but when the user starts editing it changes the (-1) to the index number of what is being edited
 
 // Handling form data
 form.addEventListener('submit', addNewTask)
-addButton.addEventListener('click', addNewTask)
+// addButton.addEventListener('click', addNewTask)
 
 function addNewTask(event) {
     event.preventDefault()
@@ -43,7 +56,23 @@ function addNewTask(event) {
 
     if (taskText.length === 0) {
         alert("Enter a task")
-    } else {
+    } else if(editingSignal >= 0){
+        tasks = tasks.map(function(taskObject, index){
+            if(editingSignal === index){
+                return{
+                    text : taskText,
+                    date : new Date().toLocaleDateString(),
+                    completed : false
+                }
+            }else{
+                return{
+                    text : taskObject.text,
+                    date : taskObject.date,
+                    completed : taskObject.completed
+                }
+            }
+        })
+    }else{
         const task = {
             text: taskText,
             date: new Date().toLocaleString(),
@@ -92,7 +121,7 @@ function printItemsOnUI() {
 
         let unCheckedIcon = document.createElement("i")
         unCheckedIcon.classList.add("fa-regular", "fa-circle")
-        unCheckedIcon.setAttribute("data-action", "check")
+        unCheckedIcon.setAttribute("data-action", "check") //adds a trigger on the element so it'll be possible to set actions for the element when it is interacted with the user
 
         let checkedIcon = document.createElement("i")
         checkedIcon.classList.add("fa-solid", "fa-circle-check")
@@ -100,7 +129,7 @@ function printItemsOnUI() {
 
         let tasksTitle = document.createElement(`h3`)
         tasksTitle.innerText = `${taskItem.text}`
-        tasksTitle.setAttribute("data-action", "title")
+        tasksTitle.setAttribute("data-action", "check")
 
         let tasksDate = document.createElement(`p`)
         tasksDate.innerText = `${taskItem.date}`
@@ -148,21 +177,21 @@ function printItemsOnUI() {
 }
 
 taskList.addEventListener(`click`, targetTaskItem)
-function targetTaskItem(e){
+function targetTaskItem(e){ //let the browser know the element that the user clicked on
     let userTarget = e.target
     let greatGrandParentElement = userTarget.closest(".task") //<div class="task">(The closest() method of the Element interface traverses the element and its parents (heading toward the document root) until it finds a node that matches the specified CSS selector.)
     if(!greatGrandParentElement)return
 
-    let taskID = Number(greatGrandParentElement.id)
+    let taskID = Number(greatGrandParentElement.id) //stores the index of any item that the user interacts with
     let clickedAction = userTarget.dataset.action
 
     if(clickedAction === "check"){
         checkTaskItem(taskID)
-    }
-
-    if(clickedAction === "delete"){
-        // Show confirmation dialog before deleting task
-        if (confirm("Are you sure you want to delete this task?")) {
+    }else if(clickedAction === "edit"){
+        editTaskItem(taskID)
+    }else if(clickedAction === "delete"){
+         // Show confirmation dialog before deleting task
+         if(confirm("Are you sure you want to delete this task?")) {
             deleteTaskItem(taskID);
         }
     }
@@ -189,9 +218,10 @@ function  checkTaskItem(ID){
 
 }
 
-function deleteTaskItem(ID) {
+// Delete tasks from array and update UI and local storage
+function deleteTaskItem(ID){
     // Create a new array that excludes the task with the matching taskID
-    tasks = tasks.filter(function(task, index) {
+    tasks = tasks.filter(function(task, index) { //filter is like the foreach and map method
         return index !== ID;
     });
 
@@ -202,5 +232,10 @@ function deleteTaskItem(ID) {
     printItemsOnUI();
 }
 
-// Delete tasks from array and update UI and local storage
+
+// Edit tasks from array and update UI and local storage
+function editTaskItem(ID){
+    taskInput.value = tasks[ID].text
+    editingSignal = ID
+}
 
