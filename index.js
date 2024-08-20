@@ -10,6 +10,9 @@ const taskList = document.getElementById('task-list')
 const addButton = document.getElementById('add-btn')
 const form = document.getElementById('form')
 const completedTasksBox = document.getElementById('completed-tasks')
+const deleteBtn = document.getElementById("delete")
+const cancelBtn = document.getElementById("cancel")
+const popup = document.getElementById("popup-modal")
 
 menuIcon.addEventListener('click', (e) => {
     sideBarMobile.style.visibility = "visible"
@@ -26,7 +29,6 @@ taskInput.addEventListener('focus', (e) => {
         addTask.style.outline = "2px solid rgba(108, 124, 189, 0.41)"
         taskInput.placeholder = "Try typing 'Pay utility bills by 6pm Friday'"
         taskIcon.className = 'far fa-circle'
-        addButton.style.visibility = "visible"
     }
 })
 
@@ -36,7 +38,6 @@ taskInput.addEventListener('blur', (e) => {
     addTask.style.outline = "none"
     taskInput.placeholder = "Add a task"
     taskIcon.className = 'fa-solid fa-plus'
-    addButton.style.visibility = "hidden"
 })
 
 // Array to collect all task object literals
@@ -191,9 +192,7 @@ function targetTaskItem(e){ //let the browser know the element that the user cli
         editTaskItem(taskID)
     }else if(clickedAction === "delete"){
          // Show confirmation dialog before deleting task
-         if(confirm("Are you sure you want to delete this task?")) {
-            deleteTaskItem(taskID);
-        }
+            showDeleteConfirmation(taskID)
     }
 }
 
@@ -216,6 +215,18 @@ function  checkTaskItem(ID){
 
     printItemsOnUI()
 
+}
+
+//Shows the popup for the delete action
+function showDeleteConfirmation(taskID) {
+    popup.style.visibility = "visible"; // Show popup
+    deleteBtn.addEventListener("click", function() {
+        deleteTaskItem(taskID); // Call deleteTaskItem here
+        popup.style.visibility = "hidden"
+    });
+    cancelBtn.addEventListener("click", function() {
+        popup.style.visibility = "hidden"; // Hide popup
+    });
 }
 
 // Delete tasks from array and update UI and local storage

@@ -127,6 +127,21 @@
             </div>
             
             <div class="tasks-body">
+                <div class="popup-modal" id="popup-modal">
+                    <div class="delete-popup" id="delete-popup">
+                        <div class="popup-textgroup">
+                            <h3>Delete Task</h3>
+                            <p>"Task" will be permanently deleted.</p>                        
+                        </div>
+
+                        <div class="action-btns">
+                            <button class="btn delete" id="delete">Delete</button>
+                            <button class="btn cancel" id="cancel">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                
+
                 <div class="task-list" id="task-list">
                     <!-- Incomplete tasks will be appended here -->
                     <!-- <div class="task">
@@ -163,7 +178,7 @@
                 <form id="form">
                     <label for="task-input"><i class="fa-solid fa-plus" id="task-icon"></i></label>                
                     <input type="text" placeholder="Add a task" id="task-input" name="task">
-                    <button type="submit" id="add-btn">Add</button>
+                    <!-- <button type="submit" id="add-btn">Add</button> -->
                 </form>
                 
             </div>
