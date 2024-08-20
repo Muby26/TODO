@@ -431,11 +431,17 @@
 .task-list{
     width: 100%;
     height: auto;
+    max-height: 75vh;
     display: none;
     flex-direction: column;
     justify-content: start;
     align-items: start;
     row-gap: 0.5rem;
+    overflow: auto;
+}
+
+.task-list::-webkit-scrollbar{
+    display: none;
 }
 
 .task{

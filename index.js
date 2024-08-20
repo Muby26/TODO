@@ -13,6 +13,7 @@ const completedTasksBox = document.getElementById('completed-tasks')
 const deleteBtn = document.getElementById("delete")
 const cancelBtn = document.getElementById("cancel")
 const popup = document.getElementById("popup-modal")
+const popupText = document.getElementById("popup-text")
 
 menuIcon.addEventListener('click', (e) => {
     sideBarMobile.style.visibility = "visible"
@@ -191,8 +192,9 @@ function targetTaskItem(e){ //let the browser know the element that the user cli
     }else if(clickedAction === "edit"){
         editTaskItem(taskID)
     }else if(clickedAction === "delete"){
-         // Show confirmation dialog before deleting task
-            showDeleteConfirmation(taskID)
+        console.log(taskID)
+        // Show confirmation dialog before deleting task
+        showDeleteConfirmation(taskID)
     }
 }
 
@@ -219,14 +221,18 @@ function  checkTaskItem(ID){
 
 //Shows the popup for the delete action
 function showDeleteConfirmation(taskID) {
+    const taskToDelete = tasks[taskID]
     popup.style.visibility = "visible"; // Show popup
+    popupText.innerText = `"${taskToDelete.text}" will be permanently deleted.`
+
     deleteBtn.addEventListener("click", function() {
         deleteTaskItem(taskID); // Call deleteTaskItem here
         popup.style.visibility = "hidden"
-    });
+    },{once: true})
+    
     cancelBtn.addEventListener("click", function() {
         popup.style.visibility = "hidden"; // Hide popup
-    });
+    },{once: true});
 }
 
 // Delete tasks from array and update UI and local storage
