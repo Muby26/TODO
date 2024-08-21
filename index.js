@@ -30,6 +30,7 @@ taskInput.addEventListener('focus', (e) => {
         addTask.style.outline = "2px solid rgba(108, 124, 189, 0.41)"
         taskInput.placeholder = "Try typing 'Pay utility bills by 6pm Friday'"
         taskIcon.className = 'far fa-circle'
+        addButton.style.visibility = "visible"
     }
 })
 
@@ -39,6 +40,14 @@ taskInput.addEventListener('blur', (e) => {
     addTask.style.outline = "none"
     taskInput.placeholder = "Add a task"
     taskIcon.className = 'fa-solid fa-plus'
+    if (editingSignal === -1) { 
+        // If not editing, hide the button after a short delay
+        setTimeout(() => {
+            if (!taskInput.value.trim()) {
+                addButton.style.visibility = "hidden";
+            }
+        }, 200);  // Delay to allow the click event to fire
+    }
 })
 
 // Array to collect all task object literals
@@ -47,7 +56,7 @@ let editingSignal = -1 // by default, the user is not editing but when the user 
 
 // Handling form data
 form.addEventListener('submit', addNewTask)
-// addButton.addEventListener('click', addNewTask)
+addButton.addEventListener('click', addNewTask)
 
 function addNewTask(event) {
     event.preventDefault()
@@ -74,6 +83,8 @@ function addNewTask(event) {
                 }
             }
         })
+        editingSignal = -1 // Reset the editing signal after update
+        addButton.innerText = "Add" // Change button text back to 'Add'
     }else{
         const task = {
             text: taskText,
@@ -86,6 +97,9 @@ function addNewTask(event) {
     localStorage.setItem("addedTasks", JSON.stringify(tasks))
     form.reset()
     fetchItems()
+
+    // Hide the button after adding a task
+    addButton.style.visibility = "hidden"
 }
 
 // Fetching data from local storage
@@ -252,7 +266,15 @@ function deleteTaskItem(ID){
 
 // Edit tasks from array and update UI and local storage
 function editTaskItem(ID){
+    // Set the input field with the task text to be edited
     taskInput.value = tasks[ID].text
+    // Change the editing signal to the current task's ID
     editingSignal = ID
+    // Focus on the input field
+    taskInput.focus()
+    // Change the add button text to "Update"
+    addButton.innerText = "Update"    
+    // Ensure the add button is visible
+    addButton.style.visibility = "visible"
 }
 
